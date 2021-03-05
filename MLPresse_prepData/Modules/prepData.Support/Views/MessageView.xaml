@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="prepData.Support.Views.MessageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid Height="180" Width="535">
+        <Grid.RowDefinitions>
+
+            <!--the header row-->
+            <RowDefinition Height="auto"/>
+
+            <!--the treatments row-->
+            <RowDefinition Height="auto"/>
+
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0"
+                Grid.Column="0"
+                Margin="10">
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="auto"/>
+
+                <RowDefinition Height="auto"/>
+
+                <RowDefinition Height="auto"/>
+
+                <RowDefinition Height="auto"/>
+
+                <RowDefinition Height="auto"/>
+
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+
+            </Grid.ColumnDefinitions>
+
+            <!--the description-->
+            <telerik:Label Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="10,10,0,0"
+                    VerticalAlignment="Center"
+                    Content="Chemin d'import d'un fichier :"/>
+
+
+            <!--the data file path-->
+            <telerik:RadWatermarkTextBox Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="0,10,0,0"
+                        IsReadOnly="True"
+                        Text="{Binding DataFilePath}"/>
+
+          
+            <!--the description-->
+            <telerik:Label Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="10,10,0,0"
+                    VerticalAlignment="Center"
+                    Content="Chemin d'export des fichers :"/>
+
+            <!--the destination path-->
+            <telerik:RadWatermarkTextBox Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="0,10,0,0"
+                        IsReadOnly="True"
+                        Text="{Binding OutputPathName}"/>
+
+
+            <!--the description-->
+            <telerik:Label Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="10,10,0,0"
+                    VerticalAlignment="Center"
+                    Content="Split en fonction du support :"/>
+
+            <!--the destination path-->
+            <telerik:RadWatermarkTextBox Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="0,10,0,0"
+                        IsReadOnly="True"
+                        Text="{Binding OutputPathName}"/>
+
+           
+        </Grid>
+       
+    </Grid>
+</UserControl>

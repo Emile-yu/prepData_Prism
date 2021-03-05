@@ -1,0 +1,131 @@
+﻿<telerik:RadLayoutControl x:Class="prepData.Support.Views.SupportList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:local="clr-namespace:prepData.Support.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="650" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+
+            <!--the header row-->
+            <RowDefinition Height="auto"/>
+
+            <!--the treatments row-->
+            <RowDefinition Height="auto"/>
+
+        </Grid.RowDefinitions>
+
+        <telerik:RadExpander Grid.Row="0"
+                  Margin="10"
+                  Header="{Binding TreatmentHeader}"
+                  IsExpanded="True">
+
+            <Grid Grid.Row="0"
+                  Grid.Column="0"
+                  Margin="10">
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="auto"/>
+
+                    <RowDefinition Height="auto"/>
+
+                    <RowDefinition Height="auto"/>
+
+                    <RowDefinition Height="auto"/>
+
+                    <RowDefinition Height="auto"/>
+
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+
+                    <!--the description column-->
+                    <ColumnDefinition Width="*"/>
+
+                    <!--the value column-->
+                    <ColumnDefinition Width="2*"/>
+
+
+                    <ColumnDefinition Width="0.3*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <!--the description-->
+                <telerik:Label Grid.Row="0"
+                       Grid.Column="0"
+                       Margin="10,10,0,0"
+                       VerticalAlignment="Center"
+                       Content="Chemin d'import d'un fichier :"/>
+
+
+                <!--the data file path-->
+                <telerik:RadWatermarkTextBox Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="0,10,0,0"
+                            IsReadOnly="True"
+                            Text="{Binding DataFilePath}"/>
+
+                <!--the load data file button-->
+                <telerik:RadButton Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,10,0,0"
+                        VerticalAlignment="Center"
+                        ToolTip="Parcourir..."
+                        Content="Load"
+                        Command="{Binding Path=BrowseInputDataPathCommand}"/>
+
+                <!--the description-->
+                <telerik:Label Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="10,10,0,0"
+                        VerticalAlignment="Center"
+                        Content="Chemin d'export des fichers :"/>
+
+                <!--the destination path-->
+                <telerik:RadWatermarkTextBox Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="0,10,0,0"
+                            IsReadOnly="True"
+                            Text="{Binding OutputPathName}"/>
+
+
+                <!--the description-->
+                <telerik:Label Grid.Row="3"
+                        Grid.Column="0"
+                        Margin="10,10,0,0"
+                        VerticalAlignment="Center"
+                        Content="Split en fonction du support :"/>
+
+                <!--the launch button-->
+               
+                <telerik:RadButton Grid.Row="3"
+                        Grid.Column="1" 
+                        Margin="0,10,0,0"
+                        VerticalAlignment="Center"
+                        ToolTip="Parcourir..."
+                        Content="Lancer le traitement"
+                        Command="{Binding Path=TreatmentLaunchCommand}"/>
+            </Grid>
+        </telerik:RadExpander>
+        <Grid Grid.Row="1" >
+            <telerik:GroupBox Header="{Binding PhasesLoggerTitle}"
+                      Grid.Row="1"
+                      Height="400"
+                      Margin="10"  >
+                <!--the phase logs-->
+                <ListBox x:Name="PhaseLogListBox"
+                         Margin="5"
+                         VerticalAlignment="Stretch"               
+                         ItemContainerStyle="{StaticResource ListBoxLogStyle}"
+                         ItemsSource="{Binding PhaseLogs}" />
+
+            </telerik:GroupBox>
+
+        </Grid>
+    </Grid>
+</telerik:RadLayoutControl>

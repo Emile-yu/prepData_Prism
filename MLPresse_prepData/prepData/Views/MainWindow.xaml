@@ -1,0 +1,28 @@
+﻿<telerik:RadRibbonWindow x:Class="prepData.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:core="clr-namespace:prepData.Core;assembly=prepData.Core"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="{Binding Title}" Height="650" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <telerik:RadRibbonView Grid.Row="0"
+                               ContentHeight="100"
+                               MinimizeButtonVisibility="Visible"
+                               ApplicationButtonVisibility="Collapsed"
+                               prism:RegionManager.RegionName="{x:Static core:RegionNames.RibbonRegion}"/>
+
+        <DockPanel Grid.Row="1"  LastChildFill="true">
+            <telerik:RadOutlookBar prism:RegionManager.RegionName="{x:Static core:RegionNames.OutlookGroupRegion}" 
+                                   SelectionChanged="RadOutlookBar_SelectionChanged"
+                                   DockPanel.Dock="Left" Width="237"/>
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
+        </DockPanel>
+
+    </Grid>
+</telerik:RadRibbonWindow>

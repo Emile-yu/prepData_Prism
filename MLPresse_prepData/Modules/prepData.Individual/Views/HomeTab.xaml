@@ -1,0 +1,13 @@
+﻿<telerik:RadRibbonTab x:Class="prepData.Individual.Views.HomeTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             IsSelected="true"
+             Header="Individual">
+    <telerik:RadRibbonGroup Header="File info">
+        <telerik:RadRadioButton Content="Info" Width="60" />
+        <telerik:RadRadioButton Content="Edit" Width="60"/>
+    </telerik:RadRibbonGroup>
+</telerik:RadRibbonTab>
