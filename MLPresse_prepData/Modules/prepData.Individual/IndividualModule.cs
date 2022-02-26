@@ -1,4 +1,5 @@
 ﻿using prepData.Core;
+using prepData.Individual.Service;
 using prepData.Individual.ViewModels;
 using prepData.Individual.Views;
 using Prism.Ioc;
@@ -15,6 +16,8 @@ namespace prepData.Individual
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.Register<AFileTreatmentServiceIndividual, IndividuFileTreatment>();
+
             containerRegistry.RegisterForNavigation<IndividualList, IndividualListViewModel>();
         }
     }

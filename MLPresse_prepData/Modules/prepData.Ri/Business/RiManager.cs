@@ -41,10 +41,14 @@ namespace prepData.Ri.Business
                     int l_begin = l_riDescrFile.PosBegin;
                     int l_end = l_riDescrFile.PosEnd;
 
+                    
                     string value = l_line.Substring(l_begin - 1, l_end - l_begin + 1);
 
                     if (l_riDescrFile.IsIndividual())
-                        l_individualId = value.Trim();
+                    {
+                        l_individualId = Tools.ParseIdOfIndividual(value);
+                    }
+                       
                     else if (l_riDescrFile.IsSupport())
                     {
                         if (l_individualId != "")

@@ -1,22 +1,27 @@
 ﻿using prepData.Core;
 using prepData.Individual.Service;
 using System;
+using System.ComponentModel;
 using System.IO;
+using System.Windows;
 
 namespace prepData.Individual.ViewModels
 {
     public class IndividualListViewModel : ATreatmentPhase
     {
-        #region properties
-
+        #region private properties 
         private string _begin;
+        private string _end;
+        private AFileTreatmentServiceIndividual _individuFileTreatment;
+        #endregion
+
+        #region public properties
         public string Begin
         {
             get { return _begin; }
             set { SetProperty(ref _begin, value); }
         }
 
-        private string _end;
         public string End
         {
             get { return _end; }
@@ -25,9 +30,10 @@ namespace prepData.Individual.ViewModels
         #endregion
 
         #region constructor
-        public IndividualListViewModel()
+        public IndividualListViewModel(AFileTreatmentServiceIndividual IndividuFileTreatment)
         {
             this.TreatmentHeader = "Individu";
+            _individuFileTreatment = IndividuFileTreatment;
         }
 
         #endregion
@@ -35,9 +41,18 @@ namespace prepData.Individual.ViewModels
         #region operations override
         public override void TreatmentLaunch()
         {
-            IndividuFileTreatment individuFile = new IndividuFileTreatment(this.DataFilePath, worker, Int32.Parse(this.Begin), Int32.Parse(this.End));
-            //individuFile.Initialize(this.DataFilePath, worker, Int32.Parse(this.Begin), Int32.Parse(this.End));
-            individuFile.ExportFile();
+            _individuFileTreatment.Initialize(this.DataFilePath, Int32.Parse(this.Begin), Int32.Parse(this.End));
+
+            try
+            {
+                _individuFileTreatment.ImportFile();
+                DataLogs log = _individuFileTreatment.ExportFile();
+                worker.ReportProgress(1, log);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         public override void ExecuteBrowseInputDataPathCommand()

@@ -6,23 +6,88 @@
         xmlns:core="clr-namespace:prepData.Core;assembly=prepData.Core"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="650" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <!--Le ribbon va ajouter-->
-        <telerik:RadRibbonView Grid.Row="0"
-                               ContentHeight="100"
-                               MinimizeButtonVisibility="Visible"
-                               ApplicationButtonVisibility="Collapsed"
-                               prism:RegionManager.RegionName="{x:Static core:RegionNames.RibbonRegion}"/>
+    <Window.Resources>
+        <ControlTemplate TargetType="Button" x:Key="TabCloseButtonTemplate">
+            <Border VerticalAlignment="Center" HorizontalAlignment="Center" CornerRadius="3"
+                    Background="Transparent" Name="back">
+                <Path Data="M0 0 8 8M0 8 8 0" Margin="5" Stroke="{TemplateBinding Foreground}"
+                      StrokeThickness="1"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#19000000" TargetName="back"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style TargetType="TabItem">
+            <Setter Property="Header" Value="{Binding DataContext.TreatmentHeader}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="Foreground" Value="#444"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Grid Background="{TemplateBinding Background}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto" MaxWidth="30" MinWidth="10"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{TemplateBinding Header}" VerticalAlignment="Center" Margin="10,5,5,5"/>
+                            <Grid Grid.Column="1" Visibility="Collapsed" Width="30">
+                                <Button Foreground="{TemplateBinding Foreground}" 
+                                        Visibility="Collapsed" Name="close_btn"
+                                        Template="{StaticResource TabCloseButtonTemplate}"
+                                        Command="{Binding DataContext.CloseCommand}"/>
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Visibility" Value="Visible" TargetName="close_btn"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Visibility" Value="Visible" TargetName="close_btn"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
 
-        <DockPanel Grid.Row="1"  LastChildFill="true">
-            <telerik:RadOutlookBar prism:RegionManager.RegionName="{x:Static core:RegionNames.OutlookGroupRegion}" 
-                                   SelectionChanged="RadOutlookBar_SelectionChanged"
-                                   DockPanel.Dock="Left" Width="237"/>
-            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#EEE"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#FF0ABEFF"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid Background="Transparent" Margin="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Width="237">
+                
+                <TextBlock Text="Le traitement data de vauge tempo"
+                    HorizontalAlignment="Center" Margin="0,30,0,0"
+                    FontSize="13" FontWeight="Bold"/>
+                <Image Source="pack://application:,,,/prepData.Resources;Component/Images/Medialand.jpg"
+                    Height="50" Margin="0,10,0,0"/>
+            </StackPanel>
+            <ContentControl/>
+        </StackPanel>
+
+        <DockPanel Grid.Row="1" LastChildFill="True">
+            <telerik:RadOutlookBar Grid.Row="1"
+                            prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftMenuTreeContentRegion}" 
+                            SelectionChanged="RadOutlookBar_SelectionChanged"
+                            DockPanel.Dock="Left" Width="237"/>
+            <TabControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}"
+                        BorderThickness="0,1,0,0" Background="White"/>
         </DockPanel>
 
     </Grid>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1525
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "prepData", "prepData\prepData.csproj", "{1E1C01B3-D645-450A-9D22-856F65FD4068}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "prepData.Ri", "Modules\prepData.Ri\prepData.Ri.csproj", "{AFFA0617-0977-432B-A299-DF8A5BBA1135}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "prepData.Individual", "Modules\prepData.Individual\prepData.Individual.csproj", "{AA69ED82-D4EC-470E-8757-422E1898F94A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "prepData.Resources", "prepData.Resources\prepData.Resources.csproj", "{EA791588-6AA1-469E-8123-7AFCDDACCF3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{AA69ED82-D4EC-470E-8757-422E1898F94A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA69ED82-D4EC-470E-8757-422E1898F94A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA69ED82-D4EC-470E-8757-422E1898F94A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA791588-6AA1-469E-8123-7AFCDDACCF3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA791588-6AA1-469E-8123-7AFCDDACCF3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA791588-6AA1-469E-8123-7AFCDDACCF3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA791588-6AA1-469E-8123-7AFCDDACCF3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

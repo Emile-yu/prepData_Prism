@@ -10,7 +10,7 @@ namespace prepData.Support.Models
 {
     public class Supports : ILineParser, ISerializable
     {
-        public int MedNum { get; set; }
+        public string MedNum { get; set; }
 
         public int IdTitre { get; set; }
 
@@ -42,15 +42,18 @@ namespace prepData.Support.Models
 
     public class SupportExport
     {
-        public int MedNum { get; set; }
+        public string MedNum { get; set; }
+
+        public int IdTitre { get; set; }
 
         public int Parution { get; set; }
 
         public int Jour { get; set; }
 
-        public SupportExport(int medNum, int parution, int jour)
+        public SupportExport(string medNum, int support, int parution, int jour)
         {
             this.MedNum = medNum;
+            this.IdTitre = support;
             this.Parution = parution;
             this.Jour = jour;
         }

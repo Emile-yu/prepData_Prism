@@ -10,8 +10,8 @@ namespace prepData.Core
     {
         public const string ContentRegion = "ContentRegion";
 
-        public const string OutlookGroupRegion = "OutlookGroupRegion";
+        public const string LeftMenuTreeContentRegion = "LeftMenuTreeContentRegion";
 
-        public const string RibbonRegion = "RibbonRegion";
+        //public const string RibbonRegion = "RibbonRegion";
     }
 }

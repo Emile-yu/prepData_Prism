@@ -11,12 +11,12 @@
              d:DesignHeight="650" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-
+            <RowDefinition Height="*"/>
             <!--the header row-->
             <RowDefinition Height="auto"/>
-
             <!--the treatments row-->
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
         <telerik:RadExpander Grid.Row="0"
@@ -28,20 +28,15 @@
               Margin="10">
 
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
-
                     <RowDefinition Height="auto"/>
-
                     <RowDefinition Height="auto"/>
-
                     <RowDefinition Height="auto"/>
-
                     <RowDefinition Height="auto"/>
-
                     <RowDefinition Height="auto"/>
-
                     <RowDefinition Height="auto"/>
-
+                    <RowDefinition Height="*"/>
 
                 </Grid.RowDefinitions>
 
@@ -165,9 +160,11 @@
             </Grid>
         </telerik:RadExpander>
         <Grid Grid.Row="1" >
-            <telerik:GroupBox Header="{Binding PhasesLoggerTitle}"
+            <telerik:GroupBox Name="GroupBox"
+                      Header="{Binding PhasesLoggerTitle}"
                       Grid.Row="1"
-                      Height="400"
+                      MaxHeight="400"
+                      MinHeight="350"
                       Margin="10"  >
                 <!--the phase logs-->
                 <ListBox x:Name="PhaseLogListBox"

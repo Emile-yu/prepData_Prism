@@ -20,7 +20,7 @@ namespace prepData.Individual.Views
     /// <summary>
     /// Interaction logic for IndividualList.xaml
     /// </summary>
-    [DependentView(RegionNames.RibbonRegion, typeof(HomeTab))]
+    //[DependentView(RegionNames.RibbonRegion, typeof(HomeTab))]
     public partial class IndividualList : RadLayoutControl
     {
         public IndividualList()

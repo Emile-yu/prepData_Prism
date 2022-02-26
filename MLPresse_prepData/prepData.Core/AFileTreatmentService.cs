@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,40 +10,30 @@ namespace prepData.Core
 {
     public abstract class AFileTreatmentService : IFileTreatmentService
     {
-        //public virtual string InputFileName { get; protected set; }
+        public virtual string InputFileName { get; protected set; }
 
-        //public virtual string OutputFileName { get; protected set; }
+        public virtual string OutputFileName { get; protected set; }
 
-        //public virtual string OutputPathName { get; protected set; }
+        public virtual string OutputPathName { get; protected set; }
 
-        //public virtual BackgroundWorker Worker { get; protected set; }
+        //#region constructor
+        //public AFileTreatmentService(BackgroundWorker Worker)
+        //{
+        //    _Worker = Worker;
+        //}
 
-        protected string InputFileName = "";
-
-        protected string OutputFileName = "";
-
-        protected string OutputPathName = "";
-
-        protected BackgroundWorker Worker { get; set; }
-
-        #region constructor
-        public AFileTreatmentService(BackgroundWorker worker, String fileName = "")
-        {
-            Worker = worker;
-        }
-
-        public AFileTreatmentService(String fileName, BackgroundWorker worker)
-        {
-            this.InputFileName = fileName;
-            Worker = worker;
-        }
-        #endregion
+        //public AFileTreatmentService(String fileName, BackgroundWorker Worker)
+        //{
+        //    this._fileName = fileName;
+        //    _Worker = Worker;
+        //}
+        //#endregion
 
         #region abstract members
 
         public abstract void ImportFile();
 
-        public abstract void ExportFile();
+        public abstract DataLogs ExportFile();
 
         #endregion
     }

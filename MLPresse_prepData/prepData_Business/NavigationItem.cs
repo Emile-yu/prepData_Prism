@@ -15,6 +15,6 @@ namespace prepData_Business
 
         public bool IsSelected { get; set; }
 
-        public ObservableCollection<NavigationItem> Items { get; set; } = new ObservableCollection<NavigationItem>();
+        public ObservableCollection<NavigationItem> Children { get; set; } = new ObservableCollection<NavigationItem>();
     }
 }

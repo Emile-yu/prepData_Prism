@@ -13,7 +13,7 @@ namespace prepData.Individual.Models
 
         public bool Parse(string line, int posStart, int posEnd)
         {
-            Id = line.Substring(posStart, posEnd - posStart).Trim();
+            Id = Tools.ParseIdOfIndividual(line.Substring(posStart, posEnd - posStart).Trim());
             return true;
         }
 

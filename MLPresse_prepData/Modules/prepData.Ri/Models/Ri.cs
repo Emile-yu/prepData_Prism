@@ -24,9 +24,9 @@ namespace prepData.Ri.Models
         public void Add(int suppId, Int64 indIndividuId, double ri)
         {
             if (!_ris.ContainsKey(suppId))
-                _ris.Add(suppId, new RiIndividu(indIndividuId, ri));
+                _ris.Add(suppId, new RiIndividu(suppId, indIndividuId, ri));
             else
-                _ris[suppId].Add(indIndividuId, ri);
+                _ris[suppId].Add(suppId,indIndividuId, ri);
         }
 
         public Dictionary<int, RiIndividu> GetRis()
@@ -50,7 +50,7 @@ namespace prepData.Ri.Models
 
         public string SupportCode { get; set; }
 
-        public string Nb { get; set; }
+        //public string Nb { get; set; }
 
         public bool Parse(string line, int posStart = 0, int posEnd = 0)
         {
@@ -80,7 +80,7 @@ namespace prepData.Ri.Models
             "Individual" : "Support"
             );
             Map(m => m.SupportCode).Name("CODE");//.ToString().Substring(1);
-            Map(m => m.Nb).Name("NB #0");
+            //Map(m => m.Nb).Name("NB #0");
         }
     }
 }

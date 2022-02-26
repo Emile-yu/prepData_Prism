@@ -35,9 +35,7 @@ namespace prepData.Menus.Views
             foreach (var item in _dataTree.Items)
             {
                 var val = item as NavigationItem;
-                if (val.Items.Count > 0)
-                    val.Items[0].IsSelected = true;
-
+                val.Children[0].IsSelected = true;
             }
 
 

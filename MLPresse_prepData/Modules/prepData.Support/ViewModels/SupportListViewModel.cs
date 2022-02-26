@@ -1,14 +1,19 @@
 ﻿using prepData.Core;
 using prepData.Support.Service;
+using System;
 using System.IO;
+using System.Windows;
 
 namespace prepData.Support.ViewModels
 {
     public class SupportListViewModel : ATreatmentPhase
     {
-        public SupportListViewModel()
+        private AFileTreatmentServiceSupport _supportTreatmentService;
+
+        public SupportListViewModel(AFileTreatmentServiceSupport supportTreatmentService)
         {
             this.TreatmentHeader = "Support";
+            this._supportTreatmentService = supportTreatmentService;
         }
         public override void ExecuteBrowseInputDataPathCommand()
         {
@@ -22,9 +27,17 @@ namespace prepData.Support.ViewModels
 
         public override void TreatmentLaunch()
         {
-            SupportTreatmentService supportFile = new SupportTreatmentService(this.DataFilePath, worker);
-            //supportFile.Initialize(this.DataFilePath, worker);
-            supportFile.ExportFile();
+            try
+            {
+                //SupportTreatmentService supportFile = new SupportTreatmentService();// (this.DataFilePath, worker);
+                _supportTreatmentService.Initialize(this.DataFilePath);
+                DataLogs log = _supportTreatmentService.ExportFile();
+                worker.ReportProgress(1, log);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }

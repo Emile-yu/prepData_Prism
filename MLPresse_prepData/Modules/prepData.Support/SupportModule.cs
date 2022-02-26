@@ -1,4 +1,5 @@
 ﻿using prepData.Core;
+using prepData.Support.Service;
 using prepData.Support.ViewModels;
 using prepData.Support.Views;
 using Prism.Ioc;
@@ -17,6 +18,7 @@ namespace prepData.Support
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.Register<AFileTreatmentServiceSupport, SupportTreatmentService>();
             containerRegistry.RegisterForNavigation<SupportList, SupportListViewModel>();
             containerRegistry.RegisterDialog<MessageView, MessageViewModel>();
         }

@@ -21,7 +21,7 @@ namespace prepData.Ri.Views
     /// Interaction logic for RiList.xaml
     /// </summary>
     
-    [DependentView(RegionNames.RibbonRegion, typeof(HomeTab))]
+    //[DependentView(RegionNames.RibbonRegion, typeof(HomeTab))]
     public partial class RiList : RadLayoutControl
     {
         public RiList()

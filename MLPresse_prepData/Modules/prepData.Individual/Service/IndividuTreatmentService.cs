@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace prepData.Individual.Service
 {
-    public class IndividuFileTreatment : AFileTreatmentService
+    public class IndividuFileTreatment : AFileTreatmentServiceIndividual
     {
         #region private
 
@@ -27,25 +27,23 @@ namespace prepData.Individual.Service
         public List<Individu> Individus { get; private set; }
         #endregion
 
-        #region constructor
-        public IndividuFileTreatment(String fileName, BackgroundWorker Worker, int Start, int End) : base(fileName, Worker)
-        {
-            StartPos = Start;
-            EndPos = End;
-
-            ImportFile();
-        }
-        #endregion
-
-        #region operations
-        //public void Initialize(string fileName, BackgroundWorker worker, int start, int end)
+        //#region constructor
+        //public IndividuFileTreatment(String fileName, BackgroundWorker Worker, int Start, int End) : base(fileName, Worker)
         //{
-        //    this.InputFileName = fileName;
-        //    this.Worker = worker;
-        //    StartPos = start;
-        //    EndPos = end;
+        //    StartPos = Start;
+        //    EndPos = End;
+
         //    ImportFile();
         //}
+        //#endregion
+
+        #region operations
+        public override void Initialize(string fileName, int start, int end)
+        {
+            this.InputFileName = fileName;
+            StartPos = start;
+            EndPos = end;
+        }
         public override void ImportFile()
         {
             if (String.IsNullOrEmpty(this.InputFileName))
@@ -69,25 +67,16 @@ namespace prepData.Individual.Service
 
             Individus = _individuManager.Provider();
 
-            string name = @"C:\Users\stephane.benesteau\Desktop\Test_prepData_Moteur_Tempo\data V3\ONE NEXT 2021 Individu\abc.csv";
-            using (var writer = new StreamWriter(name))
-            {
-                foreach (var ind in Individus)
-                {
-                    writer.WriteLine(ind.Serialize());
-                }
-            }
-
             //Individus = File.ReadAllLines(this._fileName, Encoding.GetEncoding("iso-8859-15")).Select(l => l.Substring(this.StartPos, this.EndPos - this.StartPos)).ToList();
 
 
         }
-        public override void ExportFile()
+        public override DataLogs ExportFile()
         {
             if (Individus == null && !Individus.Any())
             {
-                Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("Erreur de données, veuillez vérifier")));
-                return;
+                //Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("Erreur de données, veuillez vérifier")));
+                return new DataLogs(LogType.Error, String.Format("Erreur de données, veuillez vérifier"));
             }
 
             this.OutputPathName = FilePathManager.getInstance().getPathName(DataType.Individu, this.InputFileName);
@@ -99,9 +88,17 @@ namespace prepData.Individual.Service
             }
             string l_fileName = this.OutputFileName + ".csv";
 
-            Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("{0}.csv est en cours de générer ...", l_fileName)));
-            _individuManager.Export(l_fileName, Individus);
-            Worker.ReportProgress(1, new DataLogs(LogType.Success, String.Format("{0}.csv est généré ...", l_fileName)));
+            try
+            {
+                //Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("{0}.csv est en cours de générer ...", l_fileName)));
+                _individuManager.Export(l_fileName, Individus);
+                //Worker.ReportProgress(1, new DataLogs(LogType.Success, String.Format("{0}.csv est généré ...", l_fileName)));
+                return new DataLogs(LogType.Success, String.Format("Le fichier de l'individu est généré ...", l_fileName));
+            }
+            catch (Exception e)
+            {
+                return new DataLogs(LogType.Error, e.Message);
+            }
 
         }
     #endregion

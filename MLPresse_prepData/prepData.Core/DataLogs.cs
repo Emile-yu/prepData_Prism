@@ -9,7 +9,8 @@ namespace prepData.Core
     public enum LogType
     {
         None,
-        Success
+        Success,
+        Error
     };
 
     public class DataLogs

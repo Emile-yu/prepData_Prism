@@ -23,31 +23,23 @@
               Grid.Column="0"
               Margin="10">
                 <Grid.RowDefinitions>
-
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
-
                     <RowDefinition Height="auto"/>
-
                     <RowDefinition Height="auto"/>
-
                     <RowDefinition Height="auto"/>
-
                     <RowDefinition Height="auto"/>
-
                     <RowDefinition Height="auto"/>
-
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-
                     <!--the description column-->
                     <ColumnDefinition Width="*"/>
-
                     <!--the value column-->
                     <ColumnDefinition Width="2*"/>
-
+                    
                     <ColumnDefinition Width="0.3*"/>
-
                 </Grid.ColumnDefinitions>
 
                 <!--the description-->
@@ -130,7 +122,8 @@
         <Grid Grid.Row="1" >
             <telerik:GroupBox Header="{Binding PhasesLoggerTitle}"
                       Grid.Row="1"
-                      Height="400"
+                      MaxHeight="400"
+                      MinHeight="350"
                       Margin="10"  >
                 <!--the phase logs-->
                 <ListBox x:Name="PhaseLogListBox"

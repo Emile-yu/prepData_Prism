@@ -26,7 +26,7 @@ namespace prepData.Core
             }
         }
 
-        public void Writer<T>(StreamWriter streamWriter, IEnumerable<T> result)
+        public void Writer<T>(StreamWriter streamWriter, List<T> result)
         {
             using (var writer = new CsvWriter(streamWriter, CultureInfo.InstalledUICulture))
             {

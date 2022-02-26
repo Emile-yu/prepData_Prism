@@ -1,12 +1,15 @@
 ﻿using prepData.Core;
 using prepData.Ri.Service;
 using Prism.Commands;
+using System;
 using System.IO;
+using System.Windows;
 
 namespace prepData.Ri.ViewModels
 {
     public class RiListViewModel : ATreatmentPhase
     {
+        private AFileTreatmentServiceRi _riTreatmentService;
         private string _descrFilePath;
         public string DescrFilePath
         {
@@ -15,12 +18,15 @@ namespace prepData.Ri.ViewModels
         }
 
         private DelegateCommand _browseInputDescrFilePathCommand;
+        
+
         public DelegateCommand BrowseInputDescrFilePathCommand =>
             _browseInputDescrFilePathCommand ?? (_browseInputDescrFilePathCommand = new DelegateCommand(ExecuteBrowseInputDescrFilePathCommand));
 
-        public RiListViewModel()
+        public RiListViewModel(AFileTreatmentServiceRi riTreatmentService)
         {
             this.TreatmentHeader = "Ri";
+            this._riTreatmentService = riTreatmentService;
         }
 
         void ExecuteBrowseInputDescrFilePathCommand()
@@ -44,9 +50,16 @@ namespace prepData.Ri.ViewModels
 
         public override void TreatmentLaunch()
         {
-            RiTreatmentService file = new RiTreatmentService (this.DescrFilePath, this.DataFilePath, worker);
-            //file.Initialize(this.DescrFilePath, this.DataFilePath, worker);
-            file.ExportFile();
+            try
+            {
+                _riTreatmentService.Initialize(this.DescrFilePath, this.DataFilePath);
+                DataLogs log = _riTreatmentService.ExportFile();
+                worker.ReportProgress(1, log);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }

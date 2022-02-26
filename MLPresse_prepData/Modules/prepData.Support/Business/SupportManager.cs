@@ -13,10 +13,9 @@ namespace prepData.Support.Business
     {
         #region static membres
 
-        private CsvHelper<SupportMapClass> s_csvHelper = new CsvHelper<SupportMapClass>();
+        private static CsvHelper<SupportMapClass> s_csvHelper = new CsvHelper<SupportMapClass>();
 
         #endregion
-
 
         #region constructor
         public SupportManager(string filePath) : base(filePath)
@@ -34,7 +33,7 @@ namespace prepData.Support.Business
 
         public void Export(string fileName, List<Supports> supps)
         {
-            IEnumerable<SupportExport> result = supps.Select(o => new SupportExport(o.MedNum, o.Parution, o.Jour));
+            List<SupportExport> result = supps.Select(o => new SupportExport(Tools.ParseIdOfIndividual(o.MedNum), o.IdTitre , o.Parution, o.Jour)).ToList();
             using (var writer = new StreamWriter(fileName))
             {
                 s_csvHelper.Writer<SupportExport>(writer, result);

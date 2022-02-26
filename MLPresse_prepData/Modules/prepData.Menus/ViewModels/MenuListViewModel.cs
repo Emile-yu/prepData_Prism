@@ -5,7 +5,6 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +13,8 @@ namespace prepData.Menus.ViewModels
 {
     public class MenuListViewModel : BindableBase
     {
+        private static string s_caption = "ML Folder";
+
         private ObservableCollection<NavigationItem> _items;
         public ObservableCollection<NavigationItem> Items
         {
@@ -22,7 +23,8 @@ namespace prepData.Menus.ViewModels
         }
 
         private DelegateCommand<NavigationItem> _selectedItemChanged;
-        private readonly IApplicationCommands _applicationCommands;
+        private IApplicationCommands _applicationCommands;
+        private IModulesCollections _modulesCollections;
 
         public DelegateCommand<NavigationItem> SelectedItemChanged =>
             _selectedItemChanged ?? (_selectedItemChanged = new DelegateCommand<NavigationItem>(ExecuteSelectedItemChanged));
@@ -35,30 +37,32 @@ namespace prepData.Menus.ViewModels
             }
         }
 
-        public MenuListViewModel(IApplicationCommands applicationCommands)
+        public MenuListViewModel(IApplicationCommands applicationCommands, IModulesCollections modulesCollections)
         {
-            GenerateMenu();
             this._applicationCommands = applicationCommands;
+            this._modulesCollections = modulesCollections;
+            GenerateMenu();
         }
         private void GenerateMenu()
         {
-
-            string support = ConfigurationManager.AppSettings["SupportModule"];
-            string ri = ConfigurationManager.AppSettings["RiModule"];
-            string individu = ConfigurationManager.AppSettings["IndividualModule"];
-
             Items = new ObservableCollection<NavigationItem>();
-            var root = new NavigationItem() { Caption = "ML Folder", NavigationPath = "SupportList", IsExpanded = true };
+            if (_modulesCollections.Modules != null)
+            {
+                var root = new NavigationItem() { Caption = s_caption, NavigationPath = _modulesCollections.Modules.First().NavigationPath, IsExpanded = true };
+                root.Children = new ObservableCollection<NavigationItem>();
+                foreach (var item in _modulesCollections.Modules)
+                {
+                    root.Children.Add(item);
+                }
+                Items.Add(root);
+            }
+            
 
-            root.Items = new ObservableCollection<NavigationItem>();
-            if (!String.IsNullOrEmpty(support))
-                root.Items.Add(new NavigationItem() { Caption = support, NavigationPath = "SupportList" });
-            if (!String.IsNullOrEmpty(ri))
-                root.Items.Add(new NavigationItem() { Caption = ri, NavigationPath = "RiList" });
-            if (!String.IsNullOrEmpty(individu))
-                root.Items.Add(new NavigationItem() { Caption = individu, NavigationPath = "IndividualList" });
+           
 
-            Items.Add(root);
+            //root.Items.Add(new NavigationItem() { Caption = "Support", NavigationPath = "SupportList" });
+            //root.Items.Add(new NavigationItem() { Caption = "Ri", NavigationPath = "RiList" });
+            //root.Items.Add(new NavigationItem() { Caption = "Individu", NavigationPath = "IndividualList" });
 
         }
     }

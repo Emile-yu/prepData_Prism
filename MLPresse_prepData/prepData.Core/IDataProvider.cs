@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace prepData.Core
 {
-    public interface IDataProvider<T> where T : ILineParser
+    public interface IDataProvider<T>
     {
+        string _filePath { get; }
+
+        int _posStart { get; }
+
+        int _posEnd { get; }
         List<T> Provider();
     }
 }

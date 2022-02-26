@@ -12,7 +12,7 @@ using prepData.Ri.Business;
 
 namespace prepData.Ri.Service
 {
-    public class RiTreatmentService : AFileTreatmentService
+    public class RiTreatmentService : AFileTreatmentServiceRi
     {
         #region private membres
 
@@ -34,29 +34,33 @@ namespace prepData.Ri.Service
 
         #endregion
 
-        #region conctructor
-        public RiTreatmentService(String descrFilePath, String dataFilePath, BackgroundWorker Worker) : base(Worker)
-        {
-            DescrFilePath = descrFilePath;
-
-            DataFilePath = dataFilePath;
-
-            ImportFile();
-
-        }
-        #endregion
-
-        #region operations
-        //public void Initialize(string descrFilePath, string dataFilePath, BackgroundWorker worker)
+        //#region conctructor
+        //public RiTreatmentService(String descrFilePath, String dataFilePath, BackgroundWorker Worker) : base(Worker)
         //{
         //    DescrFilePath = descrFilePath;
+
         //    DataFilePath = dataFilePath;
-        //    this.Worker = worker;
+
         //    ImportFile();
+
         //}
+        //#endregion
+
+        #region operations
+        public override void Initialize(string descrFilePath, string dataFilePath)
+        {
+            DescrFilePath = descrFilePath;
+            DataFilePath = dataFilePath;
+            ImportFile();
+        }
         public override void ImportFile()
         {
             //_Worker.ReportProgress(1, new DataLogs(LogType.None, "traitement en cours..."));
+            if (String.IsNullOrEmpty(DescrFilePath))
+                throw new Exception("Descr File's name is empty");
+
+            if (String.IsNullOrEmpty(DataFilePath))
+                throw new Exception("Data file's name is empty");
 
             _riDescrFileManager = new RiDescrFileManager(DescrFilePath);
             riDescrFiles = _riDescrFileManager.Provider();
@@ -64,12 +68,12 @@ namespace prepData.Ri.Service
             _riManager = new RiManager(DataFilePath, riDescrFiles);
             SupportRis = _riManager.Provider();
         }
-        public override void ExportFile()
+        public override DataLogs ExportFile()
         {
             if (SupportRis == null && !SupportRis.Any())
             { 
-                Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("Erreur de données, veuillez vérifier")));
-                return;
+                //Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("Erreur de données, veuillez vérifier")));
+                return new DataLogs(LogType.Error, String.Format("Erreur de données, veuillez vérifier"));
             }
 
             this.OutputPathName = FilePathManager.getInstance().getPathName(DataType.Ri, this.DescrFilePath);
@@ -79,16 +83,25 @@ namespace prepData.Ri.Service
             {
                 Directory.CreateDirectory(this.OutputPathName);
             }
-            foreach (var sr in SupportRis)
+
+            try
             {
-                foreach (var item in sr.GetRis())
+                foreach (var sr in SupportRis)
                 {
-                    Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("{0}.csv est en cours de générer ...", this.OutputFileName + item.Key)));
+                    foreach (var item in sr.GetRis())
+                    {
+                        //Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("{0}.csv est en cours de générer ...", this.OutputFileName + item.Key)));
 
-                    _riManager.Export(OutputFileName + item.Key + ".csv", item.Value.GetRiIndividu());
+                        _riManager.Export(OutputFileName + item.Key + ".csv", item.Value.GetRiIndividu());
 
-                    Worker.ReportProgress(1, new DataLogs(LogType.Success, String.Format("{0}.csv est généré ...", OutputFileName + item.Key)));
+                        //Worker.ReportProgress(1, new DataLogs(LogType.Success, String.Format("{0}.csv est généré ...", OutputFileName + item.Key)));
+                    }
                 }
+                return new DataLogs(LogType.Success, String.Format("tous les fichiers du ri ont été générés ..."));
+            }
+            catch (Exception e)
+            {
+                return new DataLogs(LogType.Error, e.Message);
             }
         }
         #endregion

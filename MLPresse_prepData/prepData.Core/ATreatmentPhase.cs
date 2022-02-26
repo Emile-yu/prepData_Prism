@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,21 +8,26 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity;
 
 namespace prepData.Core
 {
-    public abstract class ATreatmentPhase : BindableBase
+    public abstract class ATreatmentPhase : BindableBase, INavigationAware
     {
 
         #region properties
 
         protected readonly BackgroundWorker worker = new BackgroundWorker();
+        private readonly IUnityContainer _unityContainer;
+        private readonly IRegionManager _regionManager;
 
-        private string treatmentHeader;
+        private string NavUri { get; set; }
+
+        private string _treatmentHeader;
         public string TreatmentHeader
         {
-            get { return treatmentHeader; }
-            set { SetProperty(ref treatmentHeader, value); }
+            get { return _treatmentHeader; }
+            set { SetProperty(ref _treatmentHeader, value); }
         }
 
         private string _phasesLoggerTitle;
@@ -56,6 +62,25 @@ namespace prepData.Core
         public DelegateCommand TreatmentLaunchCommand =>
             _treatmentLaunchCommand ?? (_treatmentLaunchCommand = new DelegateCommand(ExecuteTreatmentLaunchCommand, IsValidPath));
 
+        public DelegateCommand CloseCommand => new DelegateCommand(() =>
+        {
+            //根据uri获取对应的已注册对象名称
+            var obj = _unityContainer.Registrations.FirstOrDefault(o => o.Name == NavUri);
+            string name = obj.MappedToType.Name;
+            //根据对象名称从region的views里面找到对象
+            if (!string.IsNullOrEmpty(name))
+            {
+                var region = _regionManager.Regions[RegionNames.LeftMenuTreeContentRegion];
+                var view = region.Views.FirstOrDefault(v => v.GetType().Name == name);
+
+                //把这个对象从region的views里移除
+                if (view != null)
+                {
+                    region.Remove(view);
+                }
+            }
+        });
+
         private ObservableCollection<LogItem> _phaseLogs = new ObservableCollection<LogItem>();
         public ObservableCollection<LogItem> PhaseLogs
         {
@@ -66,12 +91,14 @@ namespace prepData.Core
 
         #region constructor
 
-        public ATreatmentPhase()
+        public ATreatmentPhase(/*IUnityContainer unityContainer, IRegionManager regionManager*/)
         {
             worker.WorkerReportsProgress = true;
             worker.DoWork += Worker_DoWork;
             worker.ProgressChanged += Worker_ProgressChanged;
             worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            //this._unityContainer = unityContainer;
+            //this._regionManager = regionManager;
         }
 
         #endregion
@@ -85,7 +112,6 @@ namespace prepData.Core
         #endregion
 
         #region functions
-
 
         void ExecuteTreatmentLaunchCommand()
         {
@@ -112,6 +138,11 @@ namespace prepData.Core
                     case LogType.Success:
                         if (this.PhaseLogs.Count > 0)
                             this.PhaseLogs[PhaseLogs.Count - 1] = new LogItem(logData.Message);
+                        else
+                            this.PhaseLogs.Add(new LogItem(logData.Message));
+                        break;
+                    case LogType.Error:
+                        this.PhaseLogs.Add(new LogItem(logData.Message));
                         break;
                     default:
                         break;
@@ -129,6 +160,21 @@ namespace prepData.Core
         bool IsValidPath()
         {
             return !String.IsNullOrEmpty(this.DataFilePath);
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            NavUri = navigationContext.Uri.ToString();
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+           
         }
         #endregion
     }

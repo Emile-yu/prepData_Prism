@@ -9,17 +9,13 @@ namespace prepData.Core
 {
     public interface IFileTreatmentService
     {
+        string InputFileName { get; }
 
-        //string InputFileName { get;}
+        string OutputFileName { get; }
 
-        //string OutputFileName { get; }
-
-        //string OutputPathName { get; }
-
-        //BackgroundWorker Worker { get;}
-
+        string OutputPathName { get; }
         void ImportFile();
 
-        void ExportFile();
+        DataLogs ExportFile();
     }
 }

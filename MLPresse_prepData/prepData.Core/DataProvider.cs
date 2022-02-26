@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace prepData.Core
 {
-    public class DataProvider<T> : IDataProvider<T> where T : ILineParser
+    public abstract class DataProvider<T> : IDataProvider<T> where T : ILineParser
     {
-        protected string _filePath;
-        protected int _posStart;
-        protected int _posEnd;
+        public string _filePath { get; protected set; }
+
+        public int _posStart { get; set; }
+        
+        public int _posEnd { get; set; }
 
         public DataProvider(string filePath, int posStart = 0, int posEnd = 0)
         {

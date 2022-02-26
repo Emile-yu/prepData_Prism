@@ -20,7 +20,7 @@ namespace prepData.Support.Views
     /// <summary>
     /// Interaction logic for SupportList.xaml
     /// </summary>
-    [DependentView(RegionNames.RibbonRegion, typeof(HomeTab))]
+    //[DependentView(RegionNames.RibbonRegion, typeof(HomeTab))]
     public partial class SupportList : RadLayoutControl
     {
         public SupportList()
