@@ -3,6 +3,8 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
+using Unity;
+
 
 namespace prepData.ViewModels
 {
@@ -15,8 +17,7 @@ namespace prepData.ViewModels
             set { SetProperty(ref _title, value); }
         }
         private readonly IRegionManager _regionManager;
-        private readonly IApplicationCommands _applicationCommands;
-
+        private IApplicationCommands _applicationCommands;
         private DelegateCommand<string> _navigateCommand;
         public DelegateCommand<string> NavigateCommand =>
             _navigateCommand ?? (_navigateCommand = new DelegateCommand<string>(ExecuteCommandName));

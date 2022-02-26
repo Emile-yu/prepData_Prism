@@ -23,6 +23,7 @@ namespace prepData.Support.ViewModels
         public override void TreatmentLaunch()
         {
             SupportTreatmentService supportFile = new SupportTreatmentService(this.DataFilePath, worker);
+            //supportFile.Initialize(this.DataFilePath, worker);
             supportFile.ExportFile();
         }
     }

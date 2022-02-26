@@ -17,6 +17,7 @@ namespace prepData.Individual.Business
 
         public void Export(string fileName, List<Individu> Individus)
         {
+           
             using (var writer = new StreamWriter(fileName))
             {
                 foreach (var ind in Individus)

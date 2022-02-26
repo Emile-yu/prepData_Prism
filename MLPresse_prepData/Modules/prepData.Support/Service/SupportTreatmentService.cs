@@ -20,30 +20,37 @@ namespace prepData.Support.Service
         #endregion
 
         #region public propoty
- 
-        public Dictionary<int, List<Supports>> Supports { get; private set; }
+
+        public Dictionary<int, List<Supports>> Supports { get; private set; } = new Dictionary<int, List<Supports>>();
 
         #endregion
 
         #region constructor
         public SupportTreatmentService(String fileName, BackgroundWorker Worker) : base(fileName, Worker)
         {
-            Supports = new Dictionary<int, List<Supports>>();
             ImportFile();
         }
         #endregion
 
         #region operations
+        //public void Initialize(string fileName, BackgroundWorker worker)
+        //{
+        //    this.InputFileName = fileName;
+        //    this.Worker = worker;
+
+        //    ImportFile();
+        //}
+
         public override void ImportFile()
         {
-            if (String.IsNullOrEmpty(this._fileName))
+            if (String.IsNullOrEmpty(this.InputFileName))
             {
                 throw new Exception("File name is empty");
             }
 
             //_Worker.ReportProgress(1, new DataLogs(LogType.None, "traitement en cours..."));
 
-            _supportManager = new SupportManager(_fileName);
+            _supportManager = new SupportManager(InputFileName);
 
             Supports = _supportManager.Provider().GroupBy(l => l.IdTitre).ToDictionary(o => o.Key, o => o.ToList());
         }
@@ -53,26 +60,26 @@ namespace prepData.Support.Service
 
             if (Supports == null && !Supports.Any())
             {
-                _Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("Erreur de données, veuillez vérifier")));
+                Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("Erreur de données, veuillez vérifier")));
                 return;
             }
 
-            this._OutputPathName = FilePathManager.getInstance().getPathName(DataType.Support, this._fileName);
-            this._OutputFileName = FilePathManager.getInstance().getFileName(DataType.Support, this._fileName);
+            this.OutputPathName = FilePathManager.getInstance().getPathName(DataType.Support, this.InputFileName);
+            this.OutputFileName = FilePathManager.getInstance().getFileName(DataType.Support, this.InputFileName);
 
 
-            if (!Directory.Exists(this._OutputPathName))
+            if (!Directory.Exists(this.OutputPathName))
             {
-                Directory.CreateDirectory(this._OutputPathName);
+                Directory.CreateDirectory(this.OutputPathName);
             }
 
             foreach (KeyValuePair<int, List<Supports>> item in Supports)           
             {
-                _Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("{0}.csv est en cours de générer ...", this._OutputFileName + item.Key)));
+                Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("{0}.csv est en cours de générer ...", this.OutputFileName + item.Key)));
 
-                _supportManager.Export(this._OutputFileName + item.Key + ".csv", item.Value);
+                _supportManager.Export(this.OutputFileName + item.Key + ".csv", item.Value);
 
-                _Worker.ReportProgress(1, new DataLogs(LogType.Success, String.Format("{0}.csv est généré ...", this._OutputFileName + item.Key)));
+                Worker.ReportProgress(1, new DataLogs(LogType.Success, String.Format("{0}.csv est généré ...", this.OutputFileName + item.Key)));
             }
         }
 

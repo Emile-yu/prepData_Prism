@@ -11,6 +11,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <!--Le ribbon va ajouter-->
         <telerik:RadRibbonView Grid.Row="0"
                                ContentHeight="100"
                                MinimizeButtonVisibility="Visible"

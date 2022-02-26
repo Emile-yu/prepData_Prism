@@ -9,6 +9,7 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using System;
+using System.Configuration;
 using System.Windows;
 using Telerik.Windows.Controls;
 
@@ -37,9 +38,14 @@ namespace prepData
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<MenusModule>();
-            moduleCatalog.AddModule<SupportModule>();
-            moduleCatalog.AddModule<IndividualModule>();
-            moduleCatalog.AddModule<RiModule>();
+            if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["SupportModule"]))
+                moduleCatalog.AddModule<SupportModule>();
+            if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["IndividualModule"]))
+                moduleCatalog.AddModule<IndividualModule>();
+            if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["RiModule"]))
+                moduleCatalog.AddModule<RiModule>();
+
+
         }
         protected override void ConfigureDefaultRegionBehaviors(IRegionBehaviorFactory regionBehaviors)
         {

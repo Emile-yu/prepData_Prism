@@ -1,0 +1,5 @@
+projectKey=MLPresse_prepData
+serverUrl=http://localhost:9000
+dashboardUrl=http://localhost:9000/dashboard/index/MLPresse_prepData
+ceTaskId=AX7-dV6Wd8T74CV-tTZJ
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AX7-dV6Wd8T74CV-tTZJ

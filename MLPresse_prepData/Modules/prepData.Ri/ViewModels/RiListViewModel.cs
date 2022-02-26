@@ -44,7 +44,8 @@ namespace prepData.Ri.ViewModels
 
         public override void TreatmentLaunch()
         {
-            RiTreatmentService file = new RiTreatmentService(this.DescrFilePath, this.DataFilePath, worker);
+            RiTreatmentService file = new RiTreatmentService (this.DescrFilePath, this.DataFilePath, worker);
+            //file.Initialize(this.DescrFilePath, this.DataFilePath, worker);
             file.ExportFile();
         }
     }

@@ -47,6 +47,13 @@ namespace prepData.Ri.Service
         #endregion
 
         #region operations
+        //public void Initialize(string descrFilePath, string dataFilePath, BackgroundWorker worker)
+        //{
+        //    DescrFilePath = descrFilePath;
+        //    DataFilePath = dataFilePath;
+        //    this.Worker = worker;
+        //    ImportFile();
+        //}
         public override void ImportFile()
         {
             //_Worker.ReportProgress(1, new DataLogs(LogType.None, "traitement en cours..."));
@@ -61,26 +68,26 @@ namespace prepData.Ri.Service
         {
             if (SupportRis == null && !SupportRis.Any())
             { 
-                _Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("Erreur de données, veuillez vérifier")));
+                Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("Erreur de données, veuillez vérifier")));
                 return;
             }
 
-            this._OutputPathName = FilePathManager.getInstance().getPathName(DataType.Ri, this.DescrFilePath);
-            this._OutputFileName = FilePathManager.getInstance().getFileName(DataType.Ri, this.DescrFilePath);
+            this.OutputPathName = FilePathManager.getInstance().getPathName(DataType.Ri, this.DescrFilePath);
+            this.OutputFileName = FilePathManager.getInstance().getFileName(DataType.Ri, this.DescrFilePath);
 
-            if (!Directory.Exists(this._OutputPathName))
+            if (!Directory.Exists(this.OutputPathName))
             {
-                Directory.CreateDirectory(this._OutputPathName);
+                Directory.CreateDirectory(this.OutputPathName);
             }
             foreach (var sr in SupportRis)
             {
                 foreach (var item in sr.GetRis())
                 {
-                    _Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("{0}.csv est en cours de générer ...", this._OutputFileName + item.Key)));
+                    Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("{0}.csv est en cours de générer ...", this.OutputFileName + item.Key)));
 
-                    _riManager.Export(_OutputFileName + item.Key + ".csv", item.Value.GetRiIndividu());
+                    _riManager.Export(OutputFileName + item.Key + ".csv", item.Value.GetRiIndividu());
 
-                    _Worker.ReportProgress(1, new DataLogs(LogType.Success, String.Format("{0}.csv est généré ...", _OutputFileName + item.Key)));
+                    Worker.ReportProgress(1, new DataLogs(LogType.Success, String.Format("{0}.csv est généré ...", OutputFileName + item.Key)));
                 }
             }
         }

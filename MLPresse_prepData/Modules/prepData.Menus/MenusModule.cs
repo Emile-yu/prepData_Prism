@@ -13,10 +13,12 @@ namespace prepData.Menus
         {
             var regionManager = containerProvider.Resolve<RegionManager>();
             regionManager.RegisterViewWithRegion(RegionNames.OutlookGroupRegion,typeof(MenuList));
+
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
         }
+
     }
 }

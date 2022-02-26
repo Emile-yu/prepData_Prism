@@ -9,23 +9,32 @@ namespace prepData.Core
 {
     public abstract class AFileTreatmentService : IFileTreatmentService
     {
-        protected String _fileName = "";
+        //public virtual string InputFileName { get; protected set; }
 
-        protected String _OutputFileName = "";
+        //public virtual string OutputFileName { get; protected set; }
 
-        protected String _OutputPathName = "";
+        //public virtual string OutputPathName { get; protected set; }
 
-        protected BackgroundWorker _Worker;
+        //public virtual BackgroundWorker Worker { get; protected set; }
+
+        protected string InputFileName = "";
+
+        protected string OutputFileName = "";
+
+        protected string OutputPathName = "";
+
+        protected BackgroundWorker Worker { get; set; }
+
         #region constructor
-        public AFileTreatmentService(BackgroundWorker Worker, String fileName="")
+        public AFileTreatmentService(BackgroundWorker worker, String fileName = "")
         {
-            _Worker = Worker;
+            Worker = worker;
         }
 
-        public AFileTreatmentService(String fileName, BackgroundWorker Worker)
+        public AFileTreatmentService(String fileName, BackgroundWorker worker)
         {
-            this._fileName = fileName;
-            _Worker = Worker;
+            this.InputFileName = fileName;
+            Worker = worker;
         }
         #endregion
 

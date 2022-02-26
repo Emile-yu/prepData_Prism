@@ -36,6 +36,7 @@ namespace prepData.Individual.ViewModels
         public override void TreatmentLaunch()
         {
             IndividuFileTreatment individuFile = new IndividuFileTreatment(this.DataFilePath, worker, Int32.Parse(this.Begin), Int32.Parse(this.End));
+            //individuFile.Initialize(this.DataFilePath, worker, Int32.Parse(this.Begin), Int32.Parse(this.End));
             individuFile.ExportFile();
         }
 

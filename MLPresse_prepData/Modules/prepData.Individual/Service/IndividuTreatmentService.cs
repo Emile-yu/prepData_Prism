@@ -38,9 +38,17 @@ namespace prepData.Individual.Service
         #endregion
 
         #region operations
+        //public void Initialize(string fileName, BackgroundWorker worker, int start, int end)
+        //{
+        //    this.InputFileName = fileName;
+        //    this.Worker = worker;
+        //    StartPos = start;
+        //    EndPos = end;
+        //    ImportFile();
+        //}
         public override void ImportFile()
         {
-            if (String.IsNullOrEmpty(this._fileName))
+            if (String.IsNullOrEmpty(this.InputFileName))
             {
                 throw new Exception("File Name is vide");
             }
@@ -57,9 +65,18 @@ namespace prepData.Individual.Service
 
             //_Worker.ReportProgress(1, new DataLogs(LogType.None, "traitement en cours..."));
 
-            _individuManager = new IndividuManager(this._fileName, StartPos, EndPos);
+            _individuManager = new IndividuManager(this.InputFileName, StartPos, EndPos);
 
             Individus = _individuManager.Provider();
+
+            string name = @"C:\Users\stephane.benesteau\Desktop\Test_prepData_Moteur_Tempo\data V3\ONE NEXT 2021 Individu\abc.csv";
+            using (var writer = new StreamWriter(name))
+            {
+                foreach (var ind in Individus)
+                {
+                    writer.WriteLine(ind.Serialize());
+                }
+            }
 
             //Individus = File.ReadAllLines(this._fileName, Encoding.GetEncoding("iso-8859-15")).Select(l => l.Substring(this.StartPos, this.EndPos - this.StartPos)).ToList();
 
@@ -69,22 +86,22 @@ namespace prepData.Individual.Service
         {
             if (Individus == null && !Individus.Any())
             {
-                _Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("Erreur de données, veuillez vérifier")));
+                Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("Erreur de données, veuillez vérifier")));
                 return;
             }
 
-            this._OutputPathName = FilePathManager.getInstance().getPathName(DataType.Individu, this._fileName);
-            this._OutputFileName = _OutputPathName + "\\Individus";
+            this.OutputPathName = FilePathManager.getInstance().getPathName(DataType.Individu, this.InputFileName);
+            this.OutputFileName = OutputPathName + "\\Individus";
 
-            if (!Directory.Exists(this._OutputPathName))
+            if (!Directory.Exists(this.OutputPathName))
             {
-                Directory.CreateDirectory(this._OutputPathName);
+                Directory.CreateDirectory(this.OutputPathName);
             }
-            string l_fileName = this._OutputFileName + ".csv";
+            string l_fileName = this.OutputFileName + ".csv";
 
-            _Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("{0}.csv est en cours de générer ...", l_fileName)));
+            Worker.ReportProgress(1, new DataLogs(LogType.None, String.Format("{0}.csv est en cours de générer ...", l_fileName)));
             _individuManager.Export(l_fileName, Individus);
-            _Worker.ReportProgress(1, new DataLogs(LogType.Success, String.Format("{0}.csv est généré ...", l_fileName)));
+            Worker.ReportProgress(1, new DataLogs(LogType.Success, String.Format("{0}.csv est généré ...", l_fileName)));
 
         }
     #endregion
